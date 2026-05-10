@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AutoHom Central Panel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f4f1ea;
+      --surface: #fffdf8;
+      --surface-2: #f0e8da;
+      --border: #d9cdb8;
+      --ink: #1f1d19;
+      --muted: #786d5a;
+      --accent: #b85c38;
+      --accent-soft: rgba(184, 92, 56, 0.12);
+      --success: #267a55;
+      --warn: #b97316;
+      --danger: #c13f35;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Syne', sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top right, rgba(184, 92, 56, 0.12), transparent 36%),
+        linear-gradient(180deg, #f8f5ef 0%, var(--bg) 100%);
+    }
+    a { color: var(--accent); text-decoration: none; }
+    button, input {
+      font: inherit;
+    }
+    .shell {
+      padding: 18px;
+      display: grid;
+      gap: 14px;
+    }
+    .hero, .panel, .job-card, .pending-card, .mini-card, .empty-card {
+      background: rgba(255, 253, 248, 0.92);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: 0 12px 30px rgba(86, 63, 26, 0.08);
+    }
+    .hero {
+      padding: 18px;
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(8px);
+      z-index: 5;
+    }
+    .hero-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent), #d78f33);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 8px 18px rgba(184, 92, 56, 0.25);
+    }
+    .hero h1 {
+      margin: 0;
+      font-size: 18px;
+    }
+    .hero p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+      font-family: 'DM Mono', monospace;
+    }
+    .bridge-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-family: 'DM Mono', monospace;
+      color: var(--muted);
+    }
+    .bridge-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--danger);
+    }
+    .bridge-dot.connected { background: var(--success); }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    .stat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 10px;
+      text-align: center;
+    }
+    .stat strong {
+      display: block;
+      font-size: 18px;
+    }
+    .stat span {
+      font-size: 9px;
+      font-family: 'DM Mono', monospace;
+      color: var(--muted);
+    }
+    .panel {
+      padding: 14px;
+      display: grid;
+      gap: 10px;
+    }
+    .panel h2 {
+      margin: 0;
+      font-size: 13px;
+    }
+    .toolbar, .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: center;
+    }
+    .toolbar input {
+      width: 100%;
+      min-width: 0;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--ink);
+    }
+    .toolbar button, .job-actions button, .pending-actions button, .header-actions button {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--ink);
+      border-radius: 12px;
+      padding: 9px 12px;
+      cursor: pointer;
+      font-size: 11px;
+      transition: 0.15s ease;
+    }
+    .toolbar button:hover, .job-actions button:hover, .pending-actions button:hover, .header-actions button:hover {
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+    .header-actions {
+      display: flex;
+      gap: 8px;
+    }
+    .header-actions .primary, .job-actions button:nth-child(2), .job-actions button:nth-child(3) {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+    .pending-grid, .jobs-grid, .mini-grid {
+      display: grid;
+      gap: 10px;
+    }
+    .pending-grid { grid-template-columns: 1fr; }
+    .jobs-grid { grid-template-columns: 1fr; }
+    .mini-grid { grid-template-columns: 1fr 1fr; }
+    .pending-card, .job-card, .mini-card, .empty-card {
+      padding: 14px;
+    }
+    .pending-title, .job-meta, .mini-card span, .log-entry, .empty-card {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+    }
+    .pending-file, .job-card h3, .mini-card strong {
+      margin: 6px 0;
+      font-size: 12px;
+    }
+    .pending-actions, .job-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .job-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+    .job-status {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 6px;
+    }
+    .pill {
+      display: inline-flex;
+      border-radius: 999px;
+      padding: 4px 8px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      font-size: 9px;
+      font-family: 'DM Mono', monospace;
+    }
+    .pill-completed, .pill-mapped { color: var(--success); }
+    .pill-error { color: var(--danger); }
+    .pill-running, .pill-queued, .pill-converting { color: var(--warn); }
+    .job-body {
+      display: grid;
+      gap: 8px;
+    }
+    .job-line {
+      display: grid;
+      gap: 4px;
+    }
+    .job-line span {
+      font-size: 9px;
+      font-family: 'DM Mono', monospace;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    .job-error {
+      color: var(--danger);
+      font-size: 10px;
+      font-family: 'DM Mono', monospace;
+      background: rgba(193, 63, 53, 0.08);
+      border-radius: 10px;
+      padding: 8px 10px;
+    }
+    .mini-card {
+      display: grid;
+      gap: 5px;
+    }
+    .mini-empty, .empty-card {
+      text-align: center;
+      padding: 18px;
+    }
+    .log-box {
+      max-height: 180px;
+      overflow: auto;
+      display: grid;
+      gap: 6px;
+    }
+    .log-entry {
+      border-bottom: 1px dashed var(--border);
+      padding-bottom: 6px;
+    }
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 16px;
+      transform: translateX(-50%) translateY(18px);
+      background: var(--accent);
+      color: white;
+      padding: 10px 16px;
+      border-radius: 999px;
+      opacity: 0;
+      transition: 0.2s ease;
+      font-size: 11px;
+      pointer-events: none;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <section class="hero">
+      <div class="hero-top">
+        <div style="display:flex; gap:12px; align-items:center;">
+          <div class="mark">⌘</div>
+          <div>
+            <h1>AutoHom Central Panel</h1>
+            <p>Jobs, agentes y flujos sobre Python Orchestrator</p>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button id="btn-refresh">Actualizar</button>
+        </div>
+      </div>
+      <div class="bridge-status">
+        <div class="bridge-dot disconnected" id="bridge-dot"></div>
+        <span id="bridge-label">Python desconectado</span>
+      </div>
+      <div class="stats" style="margin-top:14px;">
+        <div class="stat"><strong id="stat-jobs">0</strong><span>JOBS</span></div>
+        <div class="stat"><strong id="stat-mapped">0</strong><span>MAPEADOS</span></div>
+        <div class="stat"><strong id="stat-converted">0</strong><span>EXCEL LISTO</span></div>
+        <div class="stat"><strong id="stat-agents">0</strong><span>AGENTES</span></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-head">
+        <h2>Entrada de PDFs</h2>
+        <a href="#" id="btn-open-site-profile-editor">Configurar selectores</a>
+      </div>
+      <div class="toolbar">
+        <input id="folder-input" type="text" placeholder="Carpeta con PDFs..." />
+        <button id="btn-browse">Explorar</button>
+        <button class="primary" id="btn-scan">Escanear</button>
+      </div>
+      <div class="pending-grid" id="pending-section" style="display:none;"></div>
+    </section>
+
+    <section class="panel">
+      <div class="section-head">
+        <h2>Jobs / Actas</h2>
+        <input id="search" type="text" placeholder="Buscar por PDF, estado o URL..." style="max-width:220px;" />
+      </div>
+      <div class="jobs-grid" id="jobs-list"></div>
+    </section>
+
+    <section class="panel">
+      <div class="mini-grid">
+        <div>
+          <div class="section-head"><h2>Agentes</h2></div>
+          <div class="mini-grid" id="agents-list" style="grid-template-columns:1fr;"></div>
+        </div>
+        <div>
+          <div class="section-head"><h2>Flujos</h2></div>
+          <div class="mini-grid" id="flows-list" style="grid-template-columns:1fr;"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-head"><h2>Diagnóstico rápido</h2></div>
+      <div class="log-box" id="log-container">
+        <div class="log-entry">Selecciona "Ver logs" en un job para ver sus eventos recientes.</div>
+      </div>
+    </section>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="sidepanel.js"></script>
+</body>
+</html>

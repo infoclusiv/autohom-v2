@@ -1,0 +1,153 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Syne', sans-serif;
+  background: #f5f6fa;
+  color: #1a1d2e;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.editor-container {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.editor-header {
+  margin-bottom: 20px;
+}
+
+.editor-header h1 {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.editor-subtitle {
+  font-size: 11px;
+  color: #5a6080;
+  font-family: 'DM Mono', monospace;
+}
+
+.status-bar {
+  margin-top: 10px;
+}
+
+.status-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: 'DM Mono', monospace;
+  padding: 3px 10px;
+  border-radius: 12px;
+  background: rgba(14, 168, 117, 0.1);
+  color: #0ea875;
+  border: 1px solid #0ea875;
+}
+
+.status-badge.dirty {
+  background: rgba(217, 119, 0, 0.1);
+  color: #d97700;
+  border-color: #d97700;
+}
+
+.status-badge.saving {
+  background: rgba(58, 92, 245, 0.1);
+  color: #3a5cf5;
+  border-color: #3a5cf5;
+}
+
+fieldset {
+  border: 1px solid #dde1ee;
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 14px;
+  background: #ffffff;
+}
+
+legend {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 0 6px;
+  color: #3a5cf5;
+}
+
+label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: #5a6080;
+  margin-bottom: 10px;
+  font-family: 'DM Mono', monospace;
+}
+
+label:last-child {
+  margin-bottom: 0;
+}
+
+input[type="text"],
+input[type="number"] {
+  display: block;
+  width: 100%;
+  margin-top: 4px;
+  padding: 8px 10px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: #1a1d2e;
+  background: #f5f6fa;
+  border: 1px solid #dde1ee;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+input:focus {
+  border-color: #3a5cf5;
+}
+
+input::placeholder {
+  color: #9aa0bc;
+}
+
+.timing-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.actions-bar {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.btn {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: 'Syne', sans-serif;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-primary {
+  background: #3a5cf5;
+  color: white;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.1);
+}
+
+.btn-secondary {
+  background: rgba(58, 92, 245, 0.07);
+  color: #3a5cf5;
+  border: 1px solid #3a5cf5;
+}
+
+.btn-secondary:hover {
+  background: rgba(58, 92, 245, 0.12);
+}

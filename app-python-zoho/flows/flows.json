@@ -1,0 +1,40 @@
+{
+  "flows": [
+    {
+      "id": "pdf_to_excel",
+      "name": "PDF -> Excel",
+      "description": "Convierte un PDF local a Excel usando el agente iLovePDF.",
+      "steps": [
+        {
+          "id": "convert_pdf",
+          "agent_type": "ilovepdf-converter",
+          "action": "CONVERT_PDF",
+          "requires": ["pdf_id", "pdf_filename"],
+          "produces": ["excel_path"]
+        }
+      ]
+    },
+    {
+      "id": "pdf_to_excel_to_site2",
+      "name": "PDF -> Excel -> Sitio 2",
+      "description": "Convierte PDF a Excel y luego prepara envio al sitio 2.",
+      "enabled": false,
+      "steps": [
+        {
+          "id": "convert_pdf",
+          "agent_type": "ilovepdf-converter",
+          "action": "CONVERT_PDF",
+          "requires": ["pdf_id", "pdf_filename"],
+          "produces": ["excel_path"]
+        },
+        {
+          "id": "send_excel_site2",
+          "agent_type": "site2-uploader",
+          "action": "UPLOAD_EXCEL",
+          "requires": ["excel_path"],
+          "produces": ["site2_response"]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Site Profile Editor — iLovePDF</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="site-profile-editor.css" />
+</head>
+<body>
+  <div class="editor-container">
+    <div class="editor-header">
+      <h1>⚙️ Site Profile Editor</h1>
+      <p class="editor-subtitle">Configura los selectores CSS para la automatización de iLovePDF</p>
+      <div class="status-bar">
+        <span class="status-badge" id="status-badge">Cargado</span>
+      </div>
+    </div>
+
+    <form id="profile-form">
+      <!-- Routing -->
+      <fieldset>
+        <legend>🔗 Routing</legend>
+        <label>Base URL <input type="text" id="f-baseUrl" placeholder="https://www.ilovepdf.com/es/pdf_a_excel" /></label>
+        <label>URL Pattern <input type="text" id="f-urlPattern" placeholder="https://www.ilovepdf.com/*" /></label>
+      </fieldset>
+
+      <!-- Upload Selectors -->
+      <fieldset>
+        <legend>📤 Upload Selectors</legend>
+        <label>File Input <input type="text" id="f-fileInput" placeholder="#uploader input[type='file']" /></label>
+        <label>Upload Button <input type="text" id="f-uploadButton" placeholder="#pickfiles" /></label>
+        <label>Upload Ready Indicator <input type="text" id="f-uploadReadyIndicator" placeholder=".tool-item-body" /></label>
+      </fieldset>
+
+      <!-- Conversion Selectors -->
+      <fieldset>
+        <legend>🔄 Conversion Selectors</legend>
+        <label>Convert Button <input type="text" id="f-convertButton" placeholder="#processTask" /></label>
+        <label>Progress Indicator <input type="text" id="f-progressIndicator" placeholder=".progress" /></label>
+      </fieldset>
+
+      <!-- Download Selectors -->
+      <fieldset>
+        <legend>📥 Download Selectors</legend>
+        <label>Download Button <input type="text" id="f-downloadButton" placeholder="#download, a.btn-download" /></label>
+        <label>Download Ready Indicator <input type="text" id="f-downloadReadyIndicator" placeholder="#download" /></label>
+      </fieldset>
+
+      <!-- Timing -->
+      <fieldset>
+        <legend>⏱️ Timing (ms)</legend>
+        <div class="timing-grid">
+          <label>After Upload Delay <input type="number" id="f-afterUploadDelayMs" min="0" step="500" /></label>
+          <label>After Convert Click <input type="number" id="f-afterConvertClickDelayMs" min="0" step="500" /></label>
+          <label>After Download Click <input type="number" id="f-afterDownloadClickDelayMs" min="0" step="500" /></label>
+          <label>Element Wait Timeout <input type="number" id="f-elementWaitTimeoutMs" min="5000" step="1000" /></label>
+          <label>Poll Interval <input type="number" id="f-pollIntervalMs" min="100" step="100" /></label>
+        </div>
+      </fieldset>
+
+      <!-- Actions -->
+      <div class="actions-bar">
+        <button type="button" id="btn-reload" class="btn btn-secondary">🔄 Recargar</button>
+        <button type="button" id="btn-save" class="btn btn-primary">💾 Guardar</button>
+      </div>
+    </form>
+  </div>
+  <script src="site-profile-editor.js"></script>
+</body>
+</html>
