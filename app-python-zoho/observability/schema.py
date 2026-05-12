@@ -36,8 +36,8 @@ def _optional_text(value: Any) -> Any:
 
 def build_event(
     *,
-    component: str,
-    event: str,
+    component: str | None = None,
+    event: str | None = None,
     severity: str = "info",
     phase: str | None = None,
     message: str | None = None,
